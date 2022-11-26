@@ -1,8 +1,9 @@
+require('dotenv').config();
 module.exports = {
     HOST: "localhost",
     USER: "root",
     PASSWORD: "",
-    DB: "collegemngsys",
+    DB: process.env.DATABASE_NAME,
     dialect: "mysql",
     pool: {
       max: 5,

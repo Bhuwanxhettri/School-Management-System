@@ -1,25 +1,20 @@
 const express = require('express')
 const app = express()
-const port = 3000
 const cors = require("cors")
 const bodyParser = require('body-parser')
-const db = require("./DB/connection")
+const { connect } = require('./DB/connection');
+const adminRoute = require('./routes/adminRoutes')
 require('dotenv').config();
 app.use(bodyParser.json());
 app.use(cors());
 
-db.sequelize.sync()
-  .then(() => {
-    console.log("Synced db.");
-  })
-  .catch((err) => {
-    console.log("Failed to sync db: " + err.message);
-  });
+connect();
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+
+// routes
+app.use('/admin',adminRoute);
+
+app.listen(process.env.PORT, () => {
+  console.log(` app listening on port ${process.env.PORT}`)
 })

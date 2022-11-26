@@ -1,0 +1,2 @@
+sql orm query
+-> https://www.bezkoder.com/node-js-express-sequelize-mysql/
