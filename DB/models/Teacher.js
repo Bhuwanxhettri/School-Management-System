@@ -2,22 +2,29 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const uniqueValidator = require("mongoose-unique-validator");
 
-const adminSchema = mongoose.Schema(
+const teacherSchema = mongoose.Schema(
   {
     name: {
       type: String,
+      required: [true, "Please Enter Your Name"],
       maxLength: [30, "Name cannot exceed more than 30 character"],
       minLength: [4, "Name must be more than 4 character"],
     },
     email: {
       type: String,
+      required: [true, "Please Enter Your Name"],
       uinque: true,
       validate: [validator.isEmail, "Please Enter a Valid Email"],
     },
     user_name: {
       type: String,
       required: true,
-      unique: true,
+      unique: [true,"User Name is All ready used"]
+    },
+    gender:{
+        type:String,
+        required:true,
+        enum: ["Male", "Female", "Others"], 
     },
     password: {
       type: String,
@@ -26,14 +33,10 @@ const adminSchema = mongoose.Schema(
       select: false,
     },
     phone_number: {
-      type: String,
+      type: Number,
     },
     address: {
       type: String,
-    },
-    department:{
-      type: String,
-      enum: ["BAA", "BCA","BIM","CSIT"],
     },
     avatar: {
       public_id: {
@@ -43,20 +46,22 @@ const adminSchema = mongoose.Schema(
         type: String,
       },
     },
+    qualification:[String],
+    faculty:[String],
     role: {
       type: String,
-      enum: ["superadmin", "hod"],
-      default: "hod",
+      default: "teacher",
     },
     active: {
       type: Number,
       default: 1,
       enum: [0, 1],
-    }
+    },
+    student:[{type:mongoose.Types.ObjectId,ref:"Student"}]
   },
   { timestamps: true }
 );
 
-adminSchema.plugin(uniqueValidator);
-const adminModel = mongoose.model("Admin", adminSchema);
-module.exports = adminModel;
+teacherSchema.plugin(uniqueValidator);
+const teacherModel = mongoose.model("Teacher",teacherSchema);
+module.exports = teacherModel;
