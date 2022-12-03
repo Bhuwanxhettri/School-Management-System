@@ -1,4 +1,4 @@
-const adminModel =require('../../models/Admin')
+const adminModel =require('../models/Admin')
 
 const getAllAdmins= async () => {
     const admins = await adminModel.find().sort({ createdAt: -1 })
@@ -11,12 +11,8 @@ const getAdminByEmail = async(email)=>{
 }
 
 const createAdmin = async (payload) => {
-   const addAdminDB = await adminModel.create({
-            user_name: payload.user_name,
-            password: payload.password,
-            role: payload.role,
-          });
-    return addAdminDB;   
+   const admin = await adminModel.create(payload);
+    return admin;   
 };
 
 

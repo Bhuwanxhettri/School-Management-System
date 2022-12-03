@@ -1,4 +1,7 @@
-
+const {getAdminByEmail} = require("../../DB/queries/admin");
+const {checkPassword} = require("../../const/helper/bycript");
+const {incorrectPassword,serverError} = require("../../const/message");
+const {genterateToken} = require("../../const/helper/jwt");
 
 const login = async (req, res, next) => {
     try {
@@ -15,10 +18,10 @@ const login = async (req, res, next) => {
           fields: { password: 'Password is required .' },
         })
       }
-      const member = await getMemberByEmail(email)
+      const user = await getMemberByEmail(email)
       if (!member) {
         return next({
-          msg: 'Member Not Found',
+          msg: 'User Not Found',
           fields: { email: 'No member with this email .' },
         })
       }
@@ -48,6 +51,7 @@ const login = async (req, res, next) => {
     }
 }
 
+
 const adminLogin = async(req,res,next)=>{
   try {
     const { email, password } = req.body
@@ -70,28 +74,33 @@ const adminLogin = async(req,res,next)=>{
         fields: { email: 'No Admin with this email .' },
       })
     }
-    const isValidPassword = await checkPassword(member.password, password)
+    const isValidPassword = await checkPassword(admin.password, password)
     if (!isValidPassword) {
       return next(incorrectPassword)
     }
     
-    if (member.is_active === false) {
+    if (admin.is_active === false) {
       return next({
         msg: 'Account Suspended',
-        fileds: {},
         status: 401,
       })
     }
 
-    const token = await genterateToken(member, '30d')
-    member.avatar = `${req.protocol}://${req.get('host')}/public/members/${
-      member.avatar
-    }`
+    const token = await genterateToken(admin, '30d')
     res.json({
       token: token,
-      member: memberToSend(member),
+      admin:admin,
     })
   } catch (err) {
        next(serverError)
   }
 }
+
+
+const authController = {
+  login,
+  adminLogin
+  // checkToken,
+  // checkTokenApi,
+}
+module.exports = authController

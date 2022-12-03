@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const {createAdmin,editHOD} = require("../controllers/adminController")
-router.post('/create',createAdmin);
+const {create,editHOD} = require("../controllers/adminController")
+
+
+router.post('/create',create);
 router.put("/edithod/:user_name",editHOD)
 module.exports = router

@@ -1,12 +1,12 @@
-const {createAdmin} = require("../../DB/queries/admin")
-const { handlePassword } = require("../../const/helper/passwordHash");
+const { createAdmin } = require("../../DB/queries/admin");
+const { hashPassword } = require("../../const/helper/bycript");
 const { updateHod } = require("../../DB/queries/updateHod");
 const create = async (req, res) => {
   try {
     const { user_name, password, role } = req.body;
     const adminInfo = {
       user_name: user_name,
-      password: handlePassword(password),
+      password: hashPassword(password),
       role: role,
     };
     const result = await createAdmin(adminInfo);
@@ -20,7 +20,6 @@ const create = async (req, res) => {
 const editHOD = async (req, res) => {
   try {
     const { user_name } = req.params;
-
     const { name, phone_number, address, department, password, email } =
       req.body;
     const payload = {
@@ -30,9 +29,8 @@ const editHOD = async (req, res) => {
       address: address,
       department: department,
       email: email,
-      password: handlePassword(password),
+      password: hashPassword(password),
     };
-    console.log(payload);
     const result = await updateHod(payload);
     res.json(result);
   } catch (err) {
