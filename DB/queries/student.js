@@ -5,6 +5,12 @@ const createStudent = async (payload) => {
   const student = await studentModel.create(payload);
   return student;
 };
+const saveToken = async(payload)=>{
+const token = await studentModel.findOneAndUpdate(payload.user_name,payload.token,{
+  new:true,
+})
+return token;
+}
 const getAllStudent = async () => {
   const students = await studentModel.find().sort({ createdAt: -1 });
   return students;
@@ -37,6 +43,7 @@ const studentService = {
   deleteById,
   getStudentByUsername,
   getStudentByEmail,
-  createStudent
+  createStudent,
+  saveToken
 };
 module.exports = studentService;

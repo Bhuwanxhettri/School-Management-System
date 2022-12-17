@@ -6,7 +6,7 @@ const teacherSchema = mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, "Please Enter Your Name"],
+      // required: [true, "Please Enter Your Name"],
       maxLength: [30, "Name cannot exceed more than 30 character"],
       minLength: [4, "Name must be more than 4 character"],
     },
@@ -23,7 +23,7 @@ const teacherSchema = mongoose.Schema(
     },
     gender:{
         type:String,
-        required:true,
+        // required:true,
         enum: ["Male", "Female", "Others"], 
     },
     password: {
@@ -51,6 +51,10 @@ const teacherSchema = mongoose.Schema(
     role: {
       type: String,
       default: "teacher",
+    },
+    token:{
+      type:String,
+      unique: [true,"Token must be unique"]
     },
     active: {
       type: Number,

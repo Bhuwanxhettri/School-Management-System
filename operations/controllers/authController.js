@@ -6,6 +6,7 @@ const {genterateToken} = require("../../const/helper/jwt");
 const login = async (req, res, next) => {
     try {
       const { email, password } = req.body
+      console.log(req.body);
       if (!email) {
         return next({
           msg: 'Bad request',

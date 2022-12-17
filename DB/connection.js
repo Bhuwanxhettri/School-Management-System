@@ -1,6 +1,6 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
-const uri = process.env.MONGO_URL;
+const uri = "mongodb://localhost:27017/collegemng";
 const connect = async () => {
   try {
     mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });

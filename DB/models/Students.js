@@ -46,6 +46,9 @@ const studentSchema = mongoose.Schema(
         type: String,
       },
     },
+    token:{
+      type:String,
+    },
     qualification:[String],
     faculty:{
         type:String
