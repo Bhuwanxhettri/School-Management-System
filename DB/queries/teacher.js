@@ -1,3 +1,4 @@
+const e = require("cors");
 const { hashPassword } = require("../../const/helper/bycript");
 const teacherModel = require("../models/Teacher");
 
@@ -28,7 +29,8 @@ const getAllteacher = async () => {
 };
 const updateTeacherInfo = async (payload) => {
   try {
-    const teacher = await teacherModel.findOneAndUpdate(payload.token, {
+    const filter = { token: payload.token };
+    const update = {
       gender: payload.gender,
       address: payload.address,
       phone_number: payload.phone_number,
@@ -36,8 +38,11 @@ const updateTeacherInfo = async (payload) => {
         avatar: { public_id: "test", url: "test" },
       },
       active: 1,
-      qualification:payload.qualification,
-    });
+      $push:{
+        qualification:payload.qualification
+      } 
+    };
+    const teacher = await teacherModel.findOneAndUpdate(filter, update);
     return teacher;
   } catch (err) {
     return err;

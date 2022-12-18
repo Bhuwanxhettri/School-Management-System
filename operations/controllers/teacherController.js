@@ -12,24 +12,30 @@ const {
 
 const CreateTeacher = async (req, res) => {
   try {
-    const { user_name, password, role,email,faculty,token} = req.body;
-    const result = await createTeacher({ user_name, password,role,email,faculty,token});
+    const { user_name, password, role, email, faculty, token } = req.body;
+    const result = await createTeacher({
+      user_name,
+      password,
+      role,
+      email,
+      faculty,
+      token,
+    });
     res.json(result);
   } catch (err) {
-    res.status(409)
+    res.status(409);
     res.json(err);
   }
 };
-const UpdateTeacher = async(req,res)=>{
-    try{
-        const getToken = req.header('Authorization');
-     const result = await updateTeacherInfo(req.body);
-     res.json(result);
-    }
-    catch(err){
-        res.json(err)
-
-    }
-}
-const teacherController = { CreateTeacher,UpdateTeacher };
+const UpdateTeacher = async (req, res) => {
+  try {
+    const getToken = req.header("Authorization");
+    req.body.token = getToken;
+    const result = await updateTeacherInfo(req.body);
+    res.json(result);
+  } catch (err) {
+    res.json(err);
+  }
+};
+const teacherController = { CreateTeacher, UpdateTeacher };
 module.exports = teacherController;

@@ -30,7 +30,6 @@ const teacherSchema = mongoose.Schema(
       type: String,
       required: true,
       minLength: [8, "Password must be 8 character"],
-      select: false,
     },
     phone_number: {
       type: Number,
